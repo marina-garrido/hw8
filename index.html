@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Fun</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            color: #45a092;
+            padding: 10px;
+        }
+
+        #agify-prediction {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        #agify-prediction h2 {
+            font-size: 24px;
+        }
+
+        #name {
+            padding: 5px;
+        }
+
+        button {
+            background-color: #45a092;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color:  #8dc3bb;
+        }
+        
+        #agify-result {
+            margin-top: 10px;
+            font-size: 18px;
+            color: black;
+        }
+
+        #api-info {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        #api-info h2 {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Fun</h1>
+    
+    <!-- Agify API Age Prediction -->
+    <div id="agify-prediction">
+        <h2>Age Prediction Based on Name</h2>
+        <label for="name">Enter a name: </label>
+        <input type="text" id="name" />
+        <button onclick="predictAge()">Predict Age!</button>
+        <p id="agify-result"></p>
+    </div>
+
+    <div id="api-info">
+        <h2>API Information</h2>
+        <p><strong>Name: </strong>Agify API</p>
+        <p><strong>Description: </strong>The Agify API predicts ages based on names.</p>
+        <p><strong>Website source: </strong><a href="https://agify.io/">https://agify.io/</a></p>
+        <p><strong>Options/Parameters Used: </strong>The API request is made by providing the name to predict the age for in the query string.</p>
+        <p><strong>Applications:</strong></p>
+        <ul>
+            <li> On a social media platform to provide age predictions for users.</li>
+            <li> In an e-commerce site to personalize product recommendations based on predicted age groups.</li>
+        </ul>
+    </div>
+
+    <script>
+        function predictAge() {
+            const name = document.getElementById("name").value;
+
+            if (name.trim() === "") {
+                alert("Please enter a name:");
+                return;
+            }
+
+            fetch(`https://api.agify.io/?name=${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    const age = data.age;
+                    const count = data.count;
+
+                    const resultElement = document.getElementById("agify-result");
+                    resultElement.innerHTML = `The predicted age for ${name} is around ${age}!`;
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("An error occurred while fetching data from Agify API. Try again!");
+                });
+        }
+    </script>
+</body>
+</html>
